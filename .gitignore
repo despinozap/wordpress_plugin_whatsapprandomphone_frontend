@@ -1,0 +1,9 @@
+# Docker DB
+mysql-data
+# WordPress themes
+wp-content/themes
+# WordPress default plugins
+wp-content/plugins/akismet
+wp-content/plugins/hello.php
+# Plugin config file
+wp-content/plugins/whatsapp-random-phone/js/config.js

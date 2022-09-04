@@ -1,0 +1,93 @@
+@media all {
+    #whatsapp-random-plugin-wrapper {
+        width: 100%;
+        height: fit-content;
+        position: fixed;
+        bottom: 40px;
+        display: flex;
+        justify-content: right;
+    }
+    #whatsapp-random-plugin {
+        margin-right: 40px;
+        width: 50px;
+        height: 50px;
+        background-color: #55CD6C;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 0px 0px 10px #aaa;
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: width 0.2s, box-shadow 0.5s;
+    }
+    #whatsapp-random-plugin:hover {
+        box-shadow: 0px 0px 12px #888;
+    }
+    #whatsapp-random-container,
+    #whatsapp-random-confirm-container,
+    #whatsapp-random-display-container {
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #whatsapp-random-icon {
+        display: inline-block;
+        background-image: url(../images/whatsapp.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        cursor: pointer;
+        margin: 5px;
+    }
+    #whatsapp-random-icon.loading {
+        background-image: url(../images/loading.gif);
+    }
+    .whatsapp-random-text {
+        font-size: 16px;
+        font-weight: normal;
+        margin: 0px 10px 0px 5px;
+        animation: fadeInText 1.2s;
+    }
+    @keyframes fadeInText {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    .hidden {
+        display: none !important;
+    }
+    #whatsapp-random-confirm-container {
+        margin-right: 10px;
+    }
+    #whatsapp-random-confirm-container button {
+        border-radius: 50%;
+        border: #55CD6C 1px solid;
+        font-size: 16px;
+        background-color: #55CD6C;
+        color: #CCC;
+        height: 32px;
+        width: 32px;
+    }
+    #whatsapp-random-confirm-container button:hover {
+        transition: border 0.4s;
+        border: 1px solid #FFF;
+    }
+    @media screen and (max-width :782px) {}
+    @media screen and (max-width :425px) {
+        #whatsapp-random-plugin-wrapper {
+            justify-content: center;
+        }
+        #whatsapp-random-plugin {
+            margin-right: 0px;
+        }
+    }
+}
