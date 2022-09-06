@@ -9,10 +9,15 @@ let labelField = null;
 // Global vars
 let isLoading = false;
 
+// Validate settings params
+const validateConfig = () => {
+  return (ENDPOINT !== undefined) && (CONFIRM_MESSAGE !== undefined) && (TEXT_MESSAGE !== undefined) && (REQUESTING_MESSAGE !== undefined) && (REQUEST_ERROR_MESSAGE !== undefined);
+}
+
 // Execute code on windows load
 window.addEventListener(
   'load', 
-  (event) => {
+  () => {
     // Set global objects
     plugin = document.getElementById('whatsapp-random-plugin');
     container = document.getElementById('whatsapp-random-container');
@@ -51,51 +56,61 @@ window.addEventListener(
 );
 
 const toggleContainer = () => {
-  let isClosed = container.classList.contains('hidden');
-  
-  if(isClosed) // Is closed
+  if(validateConfig())
   {
-    // Hide display
-    displayContainer.classList.add("hidden");
-    // Show confirm
-    confirmContainer.classList.remove("hidden");
-    // Show container
-    container.classList.remove("hidden");
-    // Make plugin larger
-    plugin.style.width = '300px';
-  }
-  else // Is opened
-  {
-    // Close plugin
-    if(isLoading === false)
+    let isClosed = container.classList.contains('hidden');
+    
+    if(isClosed) // Is closed
     {
+      // Set confirm text
+      const confirmLabel = document.querySelector('#whatsapp-random-confirm-container .whatsapp-random-text');
+      confirmLabel.innerHTML = CONFIRM_MESSAGE;
+  
       // Hide display
       displayContainer.classList.add("hidden");
-      // Hide confirm
-      confirmContainer.classList.add("hidden");
-      // Hide container
-      container.classList.add("hidden");
-      // Make plugin width back smaller
-      plugin.style.width = '50px';
+      // Show confirm
+      confirmContainer.classList.remove("hidden");
+      // Show container
+      container.classList.remove("hidden");
+      // Make plugin larger
+      plugin.style.width = '350px';
     }
+    else // Is opened
+    {
+      // Close plugin
+      if(isLoading === false)
+      {
+        // Hide display
+        displayContainer.classList.add("hidden");
+        // Hide confirm
+        confirmContainer.classList.add("hidden");
+        // Hide container
+        container.classList.add("hidden");
+        // Make plugin width back smaller
+        plugin.style.width = '50px';
+      }
+    }
+  }
+  else
+  {
+    console.error('Whatsapp Random Phone: Error in plugin config');
   }
 };
 
 const openChat = (e) => {
 
-  if((ENDPOINT !== undefined) && (MESSAGE !== undefined))
+  if(validateConfig())
   {
     isLoading = true;
     whatsappIcon.classList.add('loading');
     
-    display('Requesting number...', 220, 0);
+    display(REQUESTING_MESSAGE, 220, 0);
     
     fetch(ENDPOINT)
     .then((response) => response.json())
     .then(
       (response) => {
-        
-        const URL = `${decrypt(response.url)}&text=${encodeURIComponent(MESSAGE)}`;
+        const URL = `${decrypt(response.url)}&text=${encodeURIComponent(TEXT_MESSAGE)}`;
         let callElement = document.createElement('a');
         callElement.href = URL;
         callElement.target = '_blank';
@@ -111,7 +126,7 @@ const openChat = (e) => {
               url: URL
             }
           );
-          console.log(`Opening chat with message: ${MESSAGE}`);
+          console.log(`Opening chat with message: ${TEXT_MESSAGE}`);
         }
         
         // Hide container
@@ -122,7 +137,7 @@ const openChat = (e) => {
         (error) => {
           isLoading = false;
   
-          display('Error on getting number', 240, 15);
+          display(REQUEST_ERROR_MESSAGE, 260, 15);
         }
       )
       .finally(
@@ -133,7 +148,7 @@ const openChat = (e) => {
   }
   else
   {
-    display('Error in plugin config', 240, 15);
+    console.error('Whatsapp Random Phone: Error in plugin config');
   }
 };
 
