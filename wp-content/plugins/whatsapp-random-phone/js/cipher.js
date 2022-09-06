@@ -1,6 +1,6 @@
 // Load from config file
-const KEY = CIPHER_KEY;
-const IV = CIPHER_IV;
+const KEY = CONFIG.cipher.key;
+const IV = CONFIG.cipher.iv;
 
 // Encrypt text to cipheredtext(hex)
 const encrypt = (text) => {

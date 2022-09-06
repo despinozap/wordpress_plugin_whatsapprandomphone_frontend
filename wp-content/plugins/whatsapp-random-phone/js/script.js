@@ -11,7 +11,14 @@ let isLoading = false;
 
 // Validate settings params
 const validateConfig = () => {
-  return (ENDPOINT !== undefined) && (CONFIRM_MESSAGE !== undefined) && (TEXT_MESSAGE !== undefined) && (REQUESTING_MESSAGE !== undefined) && (REQUEST_ERROR_MESSAGE !== undefined);
+  return CONFIG.endpoint &&
+    CONFIG.cipher &&
+    CONFIG.cipher.key &&
+    CONFIG.cipher.iv &&
+    CONFIG.messages.confirm &&
+    CONFIG.messages.text &&
+    CONFIG.messages.requesting &&
+    CONFIG.messages.request_error;
 }
 
 // Execute code on windows load
@@ -64,7 +71,7 @@ const toggleContainer = () => {
     {
       // Set confirm text
       const confirmLabel = document.querySelector('#whatsapp-random-confirm-container .whatsapp-random-text');
-      confirmLabel.innerHTML = CONFIRM_MESSAGE;
+      confirmLabel.innerHTML = CONFIG.messages.confirm;
   
       // Hide display
       displayContainer.classList.add("hidden");
@@ -97,20 +104,20 @@ const toggleContainer = () => {
   }
 };
 
-const openChat = (e) => {
+const openChat = () => {
 
   if(validateConfig())
   {
     isLoading = true;
     whatsappIcon.classList.add('loading');
     
-    display(REQUESTING_MESSAGE, 220, 0);
+    display(CONFIG.messages.requesting, 220, 0);
     
-    fetch(ENDPOINT)
+    fetch(CONFIG.endpoint)
     .then((response) => response.json())
     .then(
       (response) => {
-        const URL = `${decrypt(response.url)}&text=${encodeURIComponent(TEXT_MESSAGE)}`;
+        const URL = `${decrypt(response.url)}&text=${encodeURIComponent(CONFIG.messages.text)}`;
         let callElement = document.createElement('a');
         callElement.href = URL;
         callElement.target = '_blank';
@@ -126,7 +133,7 @@ const openChat = (e) => {
               url: URL
             }
           );
-          console.log(`Opening chat with message: ${TEXT_MESSAGE}`);
+          console.log(`Opening chat with message: ${CONFIG.messages.text}`);
         }
         
         // Hide container
@@ -137,7 +144,7 @@ const openChat = (e) => {
         (error) => {
           isLoading = false;
   
-          display(REQUEST_ERROR_MESSAGE, 260, 15);
+          display(CONFIG.messages.request_error, 260, 15);
         }
       )
       .finally(
