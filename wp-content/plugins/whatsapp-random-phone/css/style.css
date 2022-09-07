@@ -6,6 +6,7 @@
         bottom: 40px;
         display: flex;
         justify-content: right;
+        z-index: 9999;
     }
     #whatsapp-random-plugin {
         margin-right: 40px;
