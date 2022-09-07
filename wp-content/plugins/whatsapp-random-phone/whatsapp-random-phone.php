@@ -19,7 +19,7 @@ function wpwrp_load_plugin_css()
 add_action( 'wp_enqueue_scripts', 'wpwrp_load_plugin_css' );
 
 // Add plugin content on body open
-add_action('wp_body_open', 'wpwrp_load_plugin_content', 10);
+add_action('wp_footer', 'wpwrp_load_plugin_content', 10);
 function wpwrp_load_plugin_content()
 {
   $htmlContent = "
